@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: flask-todo-app
+    env: python
+    buildCommand: pip3 install -r requirements.txt
+    startCommand: gunicorn -c gunicorn_config.py main:app
+    envVars:
+      - key: FLASK_ENV
+        value: production
+      - key: DATABASE_URL
+        value: sqlite:///instance/todo.db

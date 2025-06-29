@@ -2,11 +2,15 @@ from flask import Flask, render_template, request, redirect, url_for, flash, ses
 from flask_sqlalchemy import SQLAlchemy
 import os
 import sqlite3
+from dotenv import load_dotenv
+load_dotenv()
 
 app = Flask(__name__)
 
-app.secret_key = "secretkey"
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///todo.db'
+# app.secret_key = "secretkey"
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///todo.db'
+app.secret_key = os.getenv('SECRET_KEY','defaultsecret')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', 'sqlite:///instance/todo.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -201,4 +205,4 @@ def register():
     return render_template('register.html')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)
